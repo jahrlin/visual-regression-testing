@@ -48,6 +48,7 @@ export default {
         }
 
         this.testsUpdated();
+        return res;
       });
   }
 };

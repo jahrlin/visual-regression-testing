@@ -6,7 +6,6 @@ import FastClick from 'fastclick';
 import App from './components/App';
 import Dispatcher from './core/Dispatcher';
 import AppActions from './actions/AppActions';
-import TestActions from './actions/TestActions';
 import ActionTypes from './constants/ActionTypes';
 
 let path = decodeURI(window.location.pathname);

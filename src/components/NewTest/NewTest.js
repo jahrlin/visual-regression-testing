@@ -24,7 +24,7 @@ class NewTest extends React.Component {
     console.log(this.state);
   }
 
-  save(e) {
+  save() {
     let state = this.state;
     console.log(state);
     TestActions.create(state);

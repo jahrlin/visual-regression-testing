@@ -2,40 +2,15 @@ import fs from 'fs';
 import TestConstants from '../constants/TestConstants';
 
 //just return a bunch of promises for fs stuff
+function getTestInstanceName() {
+  let d = new Date();
 
-function createTest(name) {
-  let path = TestConstants.TEST_ROOT + name;
-  var prom = new Promise((resolve, reject) => {
-    createTestFolder(path).then((path) => {
-      console.log('path', path);
+  let month = d.getMonth() + 1;
+  month = month < 10 ? '0' + month : month;
+  var timestamp = Math.floor(d / 1000);
+  let niceDate = d.getFullYear() + '-' + month + '-' + d.getDate() + '_' + timestamp;
 
-      //we have the project folder, lets create a test instance
-      createDirectoryIfNotExists(path + '/' + getTestInstanceName()).then((path) => {
-        resolve(path);
-      })
-      .catch((ex) => {
-        reject(ex);
-      });
-    })
-    .catch((ex) => {
-      console.error('createTestFolder failed: ', ex);
-    });
-  });
-
-  return prom;
-}
-
-function createTestFolder(name) {
-  var prom = new Promise((resolve, reject) => {
-    createDirectoryIfNotExists(name).then((path) => {
-      resolve(path);
-    }).catch((ex) => {
-      console.error('createDirectoryIfNotExists promise failed: ', ex);
-      reject(ex);
-    });
-  });
-
-  return prom;
+  return niceDate;
 }
 
 function directoryExists(path) {
@@ -69,7 +44,7 @@ function createDirectoryIfNotExists(path) {
 
       fs.mkdir(path, (err) => {
         if (err) {
-          reject (err);
+          reject(err);
         }
 
         resolve(path);
@@ -83,15 +58,39 @@ function createDirectoryIfNotExists(path) {
   return prom;
 }
 
-function getTestInstanceName() {
-  let d = new Date();
+function createTestFolder(name) {
+  var prom = new Promise((resolve, reject) => {
+    createDirectoryIfNotExists(name).then((path) => {
+      resolve(path);
+    }).catch((ex) => {
+      console.error('createDirectoryIfNotExists promise failed: ', ex);
+      reject(ex);
+    });
+  });
 
-  let month = d.getMonth() + 1;
-  month = month < 10 ? '0' + month : month;
-  var timestamp = Math.floor(d / 1000);
-  let niceDate = d.getFullYear() + '-' + month + '-' + d.getDate() + '_' + timestamp;
+  return prom;
+}
 
-  return niceDate;
-};
+function createTest(name) {
+  let fullPath = TestConstants.TEST_ROOT + name;
+  var prom = new Promise((resolve, reject) => {
+    createTestFolder(fullPath).then((path) => {
+      console.log('path', path);
+
+      //we have the project folder, lets create a test instance
+      createDirectoryIfNotExists(path + '/' + getTestInstanceName()).then((instancePath) => {
+        resolve(instancePath);
+      })
+      .catch((ex) => {
+        reject(ex);
+      });
+    })
+    .catch((ex) => {
+      console.error('createTestFolder failed: ', ex);
+    });
+  });
+
+  return prom;
+}
 
 export default { createTest };
