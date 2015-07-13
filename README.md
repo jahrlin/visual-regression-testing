@@ -1,4 +1,4 @@
-# Visual Regression Testing
+# Visual Regression Testing [![Build Status](https://travis-ci.org/jahrlin/visual-regression-testing.svg?branch=master)](https://travis-ci.org/jahrlin/visual-regression-testing)
 
 ## About
 Visual regression testing with Selenium and webdrivers. 
