@@ -5,6 +5,7 @@ import TestConstants from '../constants/TestConstants';
 import fs from 'fs';
 import * as fshelper from '../utils/filesystem';
 import * as selenium from '../utils/selenium';
+import * as testdata from '../utils/testdata';
 
 const router = new Router();
 
@@ -73,10 +74,26 @@ router.post('/create', async (req, res, next) => {
       console.log('domain', domain);
     }
 
-    fshelper.createTest(domain).then((data) => {
+    //data is full path to test instance directory
+    fshelper.createTest(domain).then((fullTestPath) => {
+      console.log('created test at', fullTestPath);
+      let dataFile;
+      testdata.configure(fullTestPath).then((result) => {
+        dataFile = result;
+      }).catch((ex) => {
+        console.error(ex);
+      });
+
       //we have everything set up, lets take some screenshots
-      selenium.run(urls, data).then((ran) => {
-        res.status(200).json(ran);
+      selenium.run(urls, fullTestPath).then((values) => {
+        console.log('ran', values);
+        //values is a map of url: screenshot name
+        testdata.addScreenshotsToTest(fullTestPath, values).then((data) => {
+          console.log('added screenshots', data);
+          res.status(200).json(values);
+        }).catch((err) => {
+          res.status(500).json(err);
+        });
       });
     });
   } catch (err) {

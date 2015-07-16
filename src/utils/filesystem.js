@@ -93,4 +93,4 @@ function createTest(name) {
   return prom;
 }
 
-export default { createTest };
+export default { createTest, directoryExists };

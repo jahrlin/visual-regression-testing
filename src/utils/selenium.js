@@ -6,11 +6,12 @@ function takeScreenshot(url, name, basepath, driver) {
     driver.get(url).then(function() {
       driver.takeScreenshot().then(function(data) {
         var base64Data = data.replace(/^data:image\/png;base64,/, '');
-        fs.writeFile(basepath + '/' + name + '.png', base64Data, 'base64', function(err) {
+        let fileName = name + '.png';
+        fs.writeFile(basepath + '/' + fileName, base64Data, 'base64', function(err) {
           if (err) {
             reject(err);
           } else {
-            resolve(url);
+            resolve({url: url, name: fileName});
           }
         });
       });
@@ -32,8 +33,8 @@ function run(urls, basepath) {
       promises.push(takeScreenshot(u, i + 1, basepath, driver));
     });
 
-    Promise.all(promises).then(() => {
-      resolve('all resolved');
+    Promise.all(promises).then((values) => {
+      resolve(values);
     }).catch((err) => {
       reject(err);
     });
