@@ -7,7 +7,7 @@ import TestActions from '../../actions/TestActions';
 class NewTest extends React.Component {
   state = {
     title: '',
-    urls: 'http://www.korian.fr'
+    urls: 'https://www.google.com\nhttps://www.google.com/services/\nhttps://www.google.com/services/solutions/be-found.html'
   };
 
   textBoxChange(e) {

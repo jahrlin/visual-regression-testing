@@ -4,6 +4,7 @@ import { Router } from 'express';
 import TestConstants from '../constants/TestConstants';
 import fs from 'fs';
 import * as fshelper from '../utils/filesystem';
+import * as selenium from '../utils/selenium';
 
 const router = new Router();
 
@@ -73,7 +74,10 @@ router.post('/create', async (req, res, next) => {
     }
 
     fshelper.createTest(domain).then((data) => {
-      res.status(200).json(data);
+      //we have everything set up, lets take some screenshots
+      selenium.run(urls, data).then((ran) => {
+        res.status(200).json(ran);
+      });
     });
   } catch (err) {
     next(err);
