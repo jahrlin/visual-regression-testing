@@ -70,8 +70,7 @@ class App {
         {component}
         <Feedback />
         <Footer />
-      </div>
-    )  :  <NotFoundPage />;
+      </div>) : <NotFoundPage />;
   }
 
   handlePopState(event) {
