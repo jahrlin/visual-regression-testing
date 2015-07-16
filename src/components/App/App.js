@@ -64,13 +64,18 @@ class App {
         break;
     }
 
-    return component ? (
-      <div>
-        <Header />
-        {component}
-        <Feedback />
-        <Footer />
-      </div>) : < NotFoundPage />;
+    if (component) {
+      return (
+        <div>
+          <Header />
+          {component}
+          <Feedback />
+          <Footer />
+        </div>
+      );
+    } else {
+      return <NotFoundPage />;
+    }
   }
 
   handlePopState(event) {
