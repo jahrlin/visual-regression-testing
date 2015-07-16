@@ -25,8 +25,8 @@ router.get('/list', async (req, res, next) => {
     prom.then(function(data) {
       res.json(data);
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -36,9 +36,9 @@ router.get('/list/:name', async (req, res, next) => {
     let path = TestConstants.TEST_ROOT + folderName;
 
     var prom = new Promise((resolve, reject) => {
-      fs.readdir(path, (err, list) => {
-        if (err) {
-          reject(err);
+      fs.readdir(path, (readError, list) => {
+        if (readError) {
+          reject(readError);
         }
         resolve(list);
       });
@@ -54,8 +54,8 @@ router.get('/list/:name', async (req, res, next) => {
       res.json(error);
     });
 
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -77,9 +77,10 @@ router.post('/create', async (req, res, next) => {
     //data is full path to test instance directory
     fshelper.createTest(domain).then((fullTestPath) => {
       console.log('created test at', fullTestPath);
-      let dataFile;
+      // let dataFile;
       testdata.configure(fullTestPath).then((result) => {
-        dataFile = result;
+        console.log(result);
+        // dataFile = result;
       }).catch((ex) => {
         console.error(ex);
       });

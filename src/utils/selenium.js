@@ -23,7 +23,7 @@ function run(urls, basepath) {
   var prom = new Promise((resolve, reject) => {
     var driver = new webdriver.Builder().
       forBrowser('phantomjs').
-      usingServer('redacted').
+      usingServer('http://sel-standalone.cloudapp.net:4444/wd/hub').
       withCapabilities(webdriver.Capabilities.phantomjs()).
       build();
 

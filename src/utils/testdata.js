@@ -23,9 +23,9 @@ function addScreenshotsToTest(testPath, screenshots) {
   return new Promise((resolve, reject) => {
     let file = testPath + '/data.json';
     let data;
-    jsonfile.readFile(file, (err, object) => {
-      if (err) {
-        reject(err);
+    jsonfile.readFile(file, (readError, object) => {
+      if (readError) {
+        reject(readError);
       }
 
       data = object;

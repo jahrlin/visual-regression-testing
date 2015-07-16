@@ -31,12 +31,16 @@ class App {
     window.addEventListener('popstate', this.handlePopState);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.path !== nextProps.path;
+  }
+
   componentWillUnmount() {
     window.removeEventListener('popstate', this.handlePopState);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.path !== nextProps.path;
+  handlePopState(event) {
+    AppActions.navigateTo(window.location.pathname, {replace: !!event.state});
   }
 
   render() {
@@ -77,11 +81,6 @@ class App {
       return <NotFoundPage />;
     }
   }
-
-  handlePopState(event) {
-    AppActions.navigateTo(window.location.pathname, {replace: !!event.state});
-  }
-
 }
 
 export default App;
