@@ -71,7 +71,7 @@ class App {
         <Feedback />
         <Footer />
       </div>
-    ) : <NotFoundPage />;
+    )  :  <NotFoundPage />;
   }
 
   handlePopState(event) {
