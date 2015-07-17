@@ -1,6 +1,8 @@
 import webdriver from 'selenium-webdriver';
 import fs from 'fs';
 
+var remoteUrl = process.env.SELENIUM_URL;
+
 function takeScreenshot(url, name, basepath, driver) {
   return new Promise((resolve, reject) => {
     driver.get(url).then(function() {
@@ -23,7 +25,7 @@ function run(urls, basepath) {
   var prom = new Promise((resolve, reject) => {
     var driver = new webdriver.Builder().
       forBrowser('phantomjs').
-      usingServer('http://sel-standalone.cloudapp.net:4444/wd/hub').
+      usingServer(remoteUrl).
       withCapabilities(webdriver.Capabilities.phantomjs()).
       build();
 
